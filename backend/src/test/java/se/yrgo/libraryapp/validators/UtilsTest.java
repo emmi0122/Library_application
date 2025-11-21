@@ -20,7 +20,7 @@ public class UtilsTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @CsvSource({ //leetspeak 1337 = leet
         "l0va, lova",
         "@boo, boo",
         "!<>blus bla, blus bla"
