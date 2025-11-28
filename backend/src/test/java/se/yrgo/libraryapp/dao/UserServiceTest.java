@@ -37,4 +37,64 @@ public class UserServiceTest {
         assertThat(userService.validate(username,
                 password)).isEqualTo(Optional.of(id));
     }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void registerUser() {
+        final String username = "newuser";
+        final String realname = "New User";
+        final String password = "password123";
+        final String passwordHash = "password123";
+        final PasswordEncoder encoder = org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        when(userDao.register(username, realname, passwordHash)).thenReturn(true);
+
+        UserService userService = new UserService(userDao, encoder);
+        boolean result = userService.register(username, realname, password);
+
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void isNameAvailableAndValid() {
+        final String name = "validuser";
+        final PasswordEncoder encoder = org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        when(userDao.isNameAvailable(name)).thenReturn(true);
+
+        UserService userService = new UserService(userDao, encoder);
+        assertThat(userService.isNameAvailable(name)).isTrue();
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void isNameAvailableAndTooShort() {
+        final String name = "ab";
+        final PasswordEncoder endoer = org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        UserService userService = new UserService(userDao, endoer);
+        assertThat(userService.isNameAvailable(name)).isFalse();
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void isNameAvailableAndIsNull() {
+        final PasswordEncoder encoder = org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        UserService userService = new UserService(userDao, encoder);
+        assertThat(userService.isNameAvailable(null)).isFalse();
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void isNameAvailableAndAlreadyTaken() {
+        final String name = "takenuser";
+        final PasswordEncoder endoer = org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+
+        when(userDao.isNameAvailable(name)).thenReturn(false);
+
+        UserService userService = new UserService(userDao, endoer);
+        assertThat(userService.isNameAvailable(name)).isFalse();
+    }
 }

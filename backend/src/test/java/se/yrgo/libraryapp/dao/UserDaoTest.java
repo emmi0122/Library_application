@@ -28,7 +28,7 @@ public class UserDaoTest {
     private ResultSet rs;
 
     @Test
-    void getEsistingLoginInfo() throws SQLException {
+    void getExistingLoginInfo() throws SQLException {
         final String username = "test";
         final UserId id = UserId.of(1);
         final String passwordHash = "$argon2i$v=19$m=16,t=2,p=1$QldXU09Sc2dzOWdUalBKQw$LgKb6x4usOpDLTlXCBVhxA";

@@ -32,4 +32,18 @@ public class UserService {
 
         return Optional.of(loginInfo.getUserId());
     }
+
+    public boolean register(String username, String realname, String password) {
+        String passwordHash = encoder.encode(password);
+        realname = realname.replace("'", "\\'");
+        return userDao.register(username, realname, passwordHash);
+    }
+
+    public boolean isNameAvailable(String name) {
+        if (name == null || name.trim().length() < 3) {
+            return false;
+        }
+
+        return userDao.isNameAvailable(name);
+    }
 }
