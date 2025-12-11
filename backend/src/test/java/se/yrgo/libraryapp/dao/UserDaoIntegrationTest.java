@@ -75,7 +75,7 @@ public class UserDaoIntegrationTest {
 
         assertThat(userDao.isNameAvailable("test")).isFalse();
         assertThat(userDao.isNameAvailable("newuser")).isTrue();
-        assertThat(userDao.isNameAvailable("ab")).isFalse();
+        assertThat(userDao.isNameAvailable("ab")).isFalse(); //Too short
     }
 
     @Test
